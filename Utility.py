@@ -4,7 +4,14 @@ import re
 
 # Path to the Images folder
 images_folder = "Images"
+import sys
 
+
+# Add the directory two levels up to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../SpriteSheetGenerator")))
+
+# Now you can import UseGenerator
+import UseGenerator
 # Iterate through each folder inside the Images folder
 for folder_name in os.listdir(images_folder):
     folder_path = os.path.join(images_folder, folder_name)
