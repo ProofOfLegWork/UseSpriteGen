@@ -12,7 +12,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 try:
     from SpriteGeneratorLibrary.GenerateSmallerImages import split_image_by_empty_space
 except ModuleNotFoundError:
-    print("Error: Could not resolve 'SpriteSheetGenerator.GenerateSmallerImages'. Please check the module path.")
+    print("Error: Could not resolve 'SpriteGeneratorLibrary.GenerateSmallerImages'. Please check the module path.")
     split_image_by_empty_space = None
 from SpriteGeneratorLibrary.Resize_withAndWithoutAspect import resize_images_to_fixed_size, resize_images_with_background_no_ar, resize_images_with_background
 from PIL import Image
@@ -69,12 +69,38 @@ def rename_folders_in_directory(directory):
             os.rename(folder_path, new_folder_path)
             print(f"Renamed: {folder_name} -> {new_folder_name}")
 
+
+def delete_folders_with_one_image(small_images_folder):
+    # Iterate through each folder inside SmallImages
+    for folder_name in os.listdir(small_images_folder):
+        folder_path = os.path.join(small_images_folder, folder_name)
+        
+        # Check if it's a directory
+        if os.path.isdir(folder_path):
+            # Count the number of image files in the folder
+            image_files = [f for f in os.listdir(folder_path) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+            
+            # If the folder contains only one image, delete the folder
+            if len(image_files) == 1:
+                try:
+                    # Delete the folder and its contents
+                    for file in image_files:
+                        os.remove(os.path.join(folder_path, file))
+                    os.rmdir(folder_path)
+                    print(f"Deleted folder: {folder_path}")
+                except Exception as e:
+                    print(f"Error deleting folder {folder_path}: {e}")
+
+# Call the function
+delete_folders_with_one_image(small_images_folder)
+
+
 # Call the function for the Images folder
 #rename_folders_in_directory(images_folder)
 
 #process_images_in_folders(images_folder, small_images_folder)
 #resize_images_with_background(small_images_folder)
 #resize_images_with_background_no_ar(small_images_folder)
-for folder_name in os.listdir(images_folder):
-        folder_path = os.path.join(small_images_folder, folder_name)
-        remove_small_images(folder_path)
+# for folder_name in os.listdir(images_folder):
+#         folder_path = os.path.join(small_images_folder, folder_name)
+#         remove_small_images(folder_path)
