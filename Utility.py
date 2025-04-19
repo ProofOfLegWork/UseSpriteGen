@@ -1,6 +1,7 @@
 # From the folders, we can use the images to create sprite sheets.
 import os
 import re
+import shutil
 
 # Path to the Images folder
 images_folder = "Images"
