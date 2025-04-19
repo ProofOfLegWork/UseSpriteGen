@@ -53,7 +53,19 @@ from datetime import datetime
 openai.api_key = os.getenv("OPENAI_API_KEY")
 categories = [
 
-    "Murderers",
+    "Knives",
+    "Swords",
+    "Shields",
+    "Armors",
+    "Poisons",
+    "Revolvers",
+    "Pistols",
+    "Axe",
+    "Spears",
+    "Bows",
+    "Crossbows",
+    "Clubs/bats",
+    "Maces"
 ]
 # categories = [
 #     "Medical professionals",
@@ -92,23 +104,35 @@ categories = [
 # ]
 
 # Iterate over each category
+
+current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+output_folder = f"Downloads_{current_time}"
+os.makedirs(output_folder, exist_ok=True)
+
 for category_name in categories:
     try:
         # Generate the image using DALL-E
+        # response = openai.images.generate(
+        #     model="dall-e-3",
+        #     prompt=f"A image of {category_name} in madhubani style",
+        #     n=1,
+        #     size="256x256"
+        # )
+
         response = openai.images.generate(
             model="dall-e-3",
             prompt=f"A retro pixel art sprite sheet of {category_name}",
             n=1,
-            size="1024x1024"
+            size="1792x1024"
         )
-
+         
         # Get the image URL
         image_url = response.data[0].url
         print(f"🔗 Image URL for {category_name}: {image_url}")
 
         # Create a folder with a timestamp for the category
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        download_folder = f"{category_name.replace(' ', '_')}_{timestamp}"
+        download_folder = os.path.join(output_folder, f"{category_name.replace(' ', '_')}")
         os.makedirs(download_folder, exist_ok=True)
 
         # Download the image

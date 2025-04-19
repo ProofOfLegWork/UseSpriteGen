@@ -92,15 +92,73 @@ def delete_folders_with_one_image(small_images_folder):
                     print(f"Error deleting folder {folder_path}: {e}")
 
 # Call the function
-delete_folders_with_one_image(small_images_folder)
+#delete_folders_with_one_image(small_images_folder)
+def ensure_directory_exists(directory_path):
+    """Create the directory if it does not exist."""
+    os.makedirs(directory_path, exist_ok=True)
+    print(f"Directory ensured: {directory_path}")
+
+# Example usage
+
+def create_fuzzy_image(image_folder, output_path):
+    """Blend multiple images together to create a fuzzy effect."""
+    image_files = [f for f in os.listdir(image_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+    
+    if not image_files:
+        print("No valid images found in the folder.")
+        return
+
+    # Open the first image to initialize the blending process
+    base_image = None
+    for idx, image_file in enumerate(image_files):
+        image_path = os.path.join(image_folder, image_file)
+        try:
+            with Image.open(image_path) as img:
+                img = img.convert("RGBA")  # Ensure all images have the same mode
+                if base_image is None:
+                    base_image = img
+                else:
+                    # Blend the current image with the base image
+                    base_image = Image.blend(base_image, img, alpha=1/(idx + 2))  # Gradually reduce the weight of each image
+        except Exception as e:
+            print(f"Error processing {image_file}: {e}")
+
+    if base_image:
+        # Save the resulting fuzzy image
+        base_image.save(output_path)
+        print(f"Fuzzy image saved to: {output_path}")
+    else:
+        print("No images were processed.")
+
+#create_fuzzy_image("SmallImages/Mounts", "./fuzzy_image.png")
 
 
 # Call the function for the Images folder
 #rename_folders_in_directory(images_folder)
+images_folder = "Weapons"
+small_images_folder = "SmallWeapons"
 
-#process_images_in_folders(images_folder, small_images_folder)
+
+ensure_directory_exists(small_images_folder)
+def clear_all_folders_inside(folder_path):
+    """Delete all contents of folders inside the specified folder."""
+    for folder_name in os.listdir(folder_path):
+        folder_full_path = os.path.join(folder_path, folder_name)
+        
+        # Check if it's a directory
+        if os.path.isdir(folder_full_path):
+            try:
+                # Delete the folder and its contents
+                shutil.rmtree(folder_full_path)
+                print(f"Cleared folder: {folder_full_path}")
+            except Exception as e:
+                print(f"Error clearing folder {folder_full_path}: {e}")
+
+clear_all_folders_inside(small_images_folder)
+
+process_images_in_folders(images_folder, small_images_folder)
 #resize_images_with_background(small_images_folder)
-#resize_images_with_background_no_ar(small_images_folder)
-# for folder_name in os.listdir(images_folder):
-#         folder_path = os.path.join(small_images_folder, folder_name)
-#         remove_small_images(folder_path)
+resize_images_with_background_no_ar(small_images_folder)
+for folder_name in os.listdir(images_folder):
+         folder_path = os.path.join(small_images_folder, folder_name)
+         remove_small_images(folder_path)
