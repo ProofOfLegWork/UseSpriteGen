@@ -154,22 +154,44 @@ def clear_all_folders_inside(folder_path):
             except Exception as e:
                 print(f"Error clearing folder {folder_full_path}: {e}")
 
-clear_all_folders_inside(small_images_folder)
+# clear_all_folders_inside(small_images_folder)
 
-process_images_in_folders(images_folder, small_images_folder)
-#resize_images_with_background(small_images_folder)
-resize_images_with_background_no_ar(small_images_folder)
-delete_folders_with_one_image(small_images_folder)
+# process_images_in_folders(images_folder, small_images_folder)
+# #resize_images_with_background(small_images_folder)
+# resize_images_with_background_no_ar(small_images_folder)
+# delete_folders_with_one_image(small_images_folder)
 
 
-for folder_name in os.listdir(images_folder):
-         folder_path = os.path.join(small_images_folder, folder_name)
-         remove_small_images(folder_path)
+# for folder_name in os.listdir(images_folder):
+#          folder_path = os.path.join(small_images_folder, folder_name)
+#          remove_small_images(folder_path)
 
-         
+
 from datetime import datetime
 def SingleImage():
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     output_folder = f"OneImagePorcessor_{current_time}"    
-    fileName = r'C:\Users\parag-network\OneDrive\One notes\polw\allsmlogo.jpg'
+    image_path = r'C:\Users\parag-network\OneDrive\One notes\polw\allsmlogo.jpg'
+    os.makedirs(output_folder, exist_ok=True)
+    create_directory_and_copy_file
     image = Image.open(image_path)
+    smallImagefolder = "SmallImagesFolder"
+    create_directory_and_copy_file(output_folder, image_path, smallImagefolder)
+    process_images_in_folders(output_folder, image_path)
+
+def create_directory_and_copy_file(destination_directory, file_to_copy, smallImagesFolder):
+    """Create a new directory under the specified directory and copy a file to it."""
+    new_directory = os.path.join(destination_directory, smallImagesFolder)
+    os.makedirs(new_directory, exist_ok=True)
+    print(f"Directory created: {new_directory}")
+    
+    try:
+        shutil.copy(file_to_copy, new_directory)
+        print(f"File copied to: {new_directory}")
+    except Exception as e:
+        print(f"Error copying file: {e}")
+
+# Example usage
+destination_directory = "OutputDirectory"
+file_to_copy = r'C:\Users\parag-network\OneDrive\One notes\polw\allsmlogo.jpg'
+create_directory_and_copy_file(destination_directory, file_to_copy)
