@@ -262,9 +262,9 @@ def CreateDirectoryAndTransparentAllImages(folder_path, small_image_folder):
 
 # Example usage
 # destination_directory = "OutputDirectory"
-# file_to_copy = r'/home/parag/all-code/images/allsmlogo.jpg'
-# #create_directory_and_copy_file(destination_directory, file_to_copy)
-# SingleImageProcessor(file_to_copy, "Logos")
+file_to_copy = r'/home/parag/all-code/UseSpriteGen/Poison/Poison_bottles/generated_image.png'
+#create_directory_and_copy_file(destination_directory, file_to_copy)
+SingleImageProcessor(file_to_copy, "Poison")
 
 
-CreateDirectoryAndTransparentAllImages("Poison", "SmallImages")
+#CreateDirectoryAndTransparentAllImages("Poison", "SmallImages")
