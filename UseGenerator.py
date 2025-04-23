@@ -128,7 +128,7 @@ for category_name in categories:
 
         response = openai.images.generate(
             model="dall-e-3",
-            prompt=f"A retro pixel art sprite sheet of {category_name} 5 by 5 sprite sheet",
+            prompt=f"A 6 by 5 retro pixel art sprite sheet of {category_name} ",
             n=1,
             size="1024x1024"
         )

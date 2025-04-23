@@ -267,4 +267,4 @@ def CreateDirectoryAndTransparentAllImages(folder_path, small_image_folder):
 # SingleImageProcessor(file_to_copy, "Logos")
 
 
-# CreateDirectoryAndTransparentAllImages("Logos", "SmallImagesFolder")
+CreateDirectoryAndTransparentAllImages("Poison", "SmallImages")
