@@ -53,21 +53,8 @@ from datetime import datetime
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 categories= [
-    "Libraries",
-    "Schools",
-    "Hospitals",
-    "Police Stations",
-    "Fire Stations",
-    "Courthouses",
-    "Banks",
-    "Post Offices",
-    "Government Buildings",
-    "Courthouses",
-    "Houses",
-    "Studyrooms",
-    "Living Rooms",
-    "Bedrooms",
-    "Bathrooms"
+    
+    "Poison bottles"
  ]
 
 
@@ -141,9 +128,9 @@ for category_name in categories:
 
         response = openai.images.generate(
             model="dall-e-3",
-            prompt=f"A retro pixel art sprite sheet of {category_name}",
+            prompt=f"A retro pixel art sprite sheet of {category_name} 5 by 5 sprite sheet",
             n=1,
-            size="1792x1024"
+            size="1024x1024"
         )
          
         # Get the image URL

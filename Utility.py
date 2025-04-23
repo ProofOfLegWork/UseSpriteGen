@@ -48,7 +48,23 @@ def process_images_in_folders(images_folder, small_images_folder):
                         print(f"Error processing {image_file} in {folder_name}: {e}")
 
 # Call the function
+def process_images_in_folder(images_folder, small_images_folder, image_name):            
+    # Check if it's a directory
+    if os.path.isdir(images_folder):
 
+        # Process each image in the folder
+        for image_file in os.listdir(images_folder):
+            image_path = os.path.join(images_folder, image_file)
+            
+            # Check if it's a valid image file
+            if os.path.isfile(image_path) and image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
+                try:
+                    # Split the image into smaller images
+                    split_image_by_empty_space(image_path, small_images_folder, image_name)
+                    
+            
+                except Exception as e:
+                    print(f"Error processing {image_file} in {image_name}: {e}")
 
 
 # Add the directory two levels up to the Python path
@@ -139,7 +155,7 @@ def create_fuzzy_image(image_folder, output_path):
 images_folder = "Locations"
 small_images_folder = "SmallLocations"
 
-ensure_directory_exists(small_images_folder)
+#ensure_directory_exists(small_images_folder)
 def clear_all_folders_inside(folder_path):
     """Delete all contents of folders inside the specified folder."""
     for folder_name in os.listdir(folder_path):
@@ -166,19 +182,6 @@ def clear_all_folders_inside(folder_path):
 #          folder_path = os.path.join(small_images_folder, folder_name)
 #          remove_small_images(folder_path)
 
-
-from datetime import datetime
-def SingleImage():
-    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    output_folder = f"OneImagePorcessor_{current_time}"    
-    image_path = r'C:\Users\parag-network\OneDrive\One notes\polw\allsmlogo.jpg'
-    os.makedirs(output_folder, exist_ok=True)
-    create_directory_and_copy_file
-    image = Image.open(image_path)
-    smallImagefolder = "SmallImagesFolder"
-    create_directory_and_copy_file(output_folder, image_path, smallImagefolder)
-    process_images_in_folders(output_folder, image_path)
-
 def create_directory_and_copy_file(destination_directory, file_to_copy, smallImagesFolder):
     """Create a new directory under the specified directory and copy a file to it."""
     new_directory = os.path.join(destination_directory, smallImagesFolder)
@@ -186,12 +189,82 @@ def create_directory_and_copy_file(destination_directory, file_to_copy, smallIma
     print(f"Directory created: {new_directory}")
     
     try:
-        shutil.copy(file_to_copy, new_directory)
-        print(f"File copied to: {new_directory}")
+        shutil.copy(file_to_copy, destination_directory)
+        print(f"File copied to: {destination_directory}")
     except Exception as e:
         print(f"Error copying file: {e}")
+    return new_directory
+
+
+from datetime import datetime
+def SingleImageProcessor(image_path, image_name):
+    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    output_folder = f"OneImagePorcessor_{current_time}"    
+    #image_path = r'C:\Users\parag-network\OneDrive\One notes\polw\allsmlogo.jpg'
+    os.makedirs(output_folder, exist_ok=True)
+    
+    #image = Image.open(image_path)
+    smallImagefolder = "SmallImagesFolder"
+    
+    newdir = create_directory_and_copy_file(output_folder, image_path, smallImagefolder)
+    process_images_in_folder(output_folder, newdir, image_name)
+
+def make_transparent(input_path, output_path, color_to_make_transparent=(255, 255, 255)):
+    """
+    Make the specified color in an image transparent.
+
+    Args:
+        input_path (str): Path to the input image.
+        output_path (str): Path to save the output image.
+        color_to_make_transparent (tuple): RGB color to make transparent (default is white).
+    """
+    try:
+        # Open the image
+        img = Image.open(input_path).convert("RGBA")
+
+        # Get the image data
+        data = img.getdata()
+
+        # Create a new data list with transparency applied
+        new_data = []
+        for item in data:
+            # Check if the pixel matches the color to make transparent
+            if item[:3] == color_to_make_transparent:
+                # Make the pixel fully transparent
+                new_data.append((255, 255, 255, 0))
+            else:
+                # Keep the pixel as is
+                new_data.append(item)
+
+        # Update the image data
+        img.putdata(new_data)
+
+        # Save the new image
+        img.save(output_path, "PNG")
+        print(f"✅ Transparent image saved to: {output_path}")
+    except Exception as e:
+        print(f"❌ Error processing the image: {e}")
 
 # Example usage
-destination_directory = "OutputDirectory"
-file_to_copy = r'C:\Users\parag-network\OneDrive\One notes\polw\allsmlogo.jpg'
-create_directory_and_copy_file(destination_directory, file_to_copy)
+# input_image = "path/to/your/image.jpg"  # Replace with your input image path
+# output_image = "path/to/your/output_image.png"  # Replace with your desired output path
+# make_transparent(input_image, output_image)
+def CreateDirectoryAndTransparentAllImages(folder_path, small_image_folder):
+    input_folder = os.path.join(folder_path, small_image_folder)  
+    output_folder = os.path.join(folder_path, "TransparentImages")
+    os.makedirs(output_folder, exist_ok=True)
+    #image_path = r'C:\Users\parag-network\OneDrive\One notes\polw\allsmlogo.jpg'
+    for image_file in os.listdir(input_folder):
+        input_path = os.path.join(input_folder, image_file)
+        if os.path.isfile(input_path) and image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
+            output_path = os.path.join(output_folder, f"transparent_{image_file}")
+            make_transparent(input_path, output_path)
+
+# Example usage
+# destination_directory = "OutputDirectory"
+# file_to_copy = r'/home/parag/all-code/images/allsmlogo.jpg'
+# #create_directory_and_copy_file(destination_directory, file_to_copy)
+# SingleImageProcessor(file_to_copy, "Logos")
+
+
+# CreateDirectoryAndTransparentAllImages("Logos", "SmallImagesFolder")
