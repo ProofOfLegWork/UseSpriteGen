@@ -37,7 +37,7 @@ def process_images_in_folders(images_folder, small_images_folder):
                 if os.path.isfile(image_path) and image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
                     try:
                         # Split the image into smaller images
-                        split_image_by_empty_space(image_path, small_folder_path)
+                        split_image_by_empty_space(image_path, small_folder_path, folder_name)
                         
                         # # Save the smaller images in the corresponding SmallImages folder
                         # for idx, small_image in enumerate(smaller_images):
@@ -136,9 +136,8 @@ def create_fuzzy_image(image_folder, output_path):
 
 # Call the function for the Images folder
 #rename_folders_in_directory(images_folder)
-images_folder = "Weapons"
-small_images_folder = "SmallWeapons"
-
+images_folder = "Locations"
+small_images_folder = "SmallLocations"
 
 ensure_directory_exists(small_images_folder)
 def clear_all_folders_inside(folder_path):
@@ -160,6 +159,17 @@ clear_all_folders_inside(small_images_folder)
 process_images_in_folders(images_folder, small_images_folder)
 #resize_images_with_background(small_images_folder)
 resize_images_with_background_no_ar(small_images_folder)
+delete_folders_with_one_image(small_images_folder)
+
+
 for folder_name in os.listdir(images_folder):
          folder_path = os.path.join(small_images_folder, folder_name)
          remove_small_images(folder_path)
+
+         
+from datetime import datetime
+def SingleImage():
+    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    output_folder = f"OneImagePorcessor_{current_time}"    
+    fileName = r'C:\Users\parag-network\OneDrive\One notes\polw\allsmlogo.jpg'
+    image = Image.open(image_path)

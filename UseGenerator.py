@@ -51,22 +51,42 @@ from datetime import datetime
 
 # Set your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
-categories = [
 
-    "Knives",
-    "Swords",
-    "Shields",
-    "Armors",
-    "Poisons",
-    "Revolvers",
-    "Pistols",
-    "Axe",
-    "Spears",
-    "Bows",
-    "Crossbows",
-    "Clubs/bats",
-    "Maces"
-]
+categories= [
+    "Libraries",
+    "Schools",
+    "Hospitals",
+    "Police Stations",
+    "Fire Stations",
+    "Courthouses",
+    "Banks",
+    "Post Offices",
+    "Government Buildings",
+    "Courthouses",
+    "Houses",
+    "Studyrooms",
+    "Living Rooms",
+    "Bedrooms",
+    "Bathrooms"
+ ]
+
+
+# categories = [
+
+#     "Knives",
+#     "Swords",
+#     "Shields",
+#     "Armors",
+#     "Poisons",
+#     "Revolvers",
+#     "Pistols",
+#     "Axe",
+#     "Spears",
+#     "Bows",
+#     "Crossbows",
+#     "Clubs/bats",
+#     "Maces"
+# ]
 # categories = [
 #     "Medical professionals",
 #     "Positive Fictional characters",
@@ -146,3 +166,6 @@ for category_name in categories:
             print(f"❌ Failed to download the image for {category_name}.")
     except Exception as e:
         print(f"❌ Error processing category {category_name}: {e}")
+
+
+    
